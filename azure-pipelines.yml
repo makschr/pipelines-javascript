@@ -1,4 +1,5 @@
----
+stages:
+-
 trigger:
 - main
 
