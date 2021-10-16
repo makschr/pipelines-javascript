@@ -4,26 +4,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+- group: Dev
+- name: my-passed-variable
+  value: $[variables.myhello] # uses runtime expression
+
 steps:
-- bash: az --version
-  displayName: 'Show Azure CLI version'
+- script: echo $(database1) # uses macro syntax
+- script: echo $(my-passed-variable) 
 
-- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
-  displayName: 'Set default Azure DevOps organization and project'
-
-- bash: |
-    az pipelines build list
-    git pr list
-  displayName: 'Show build list and PRs'
-  env:
-    AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
-
-# Specify python version
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    architecture: 'x64'
-
-# Update to latest Azure CLI version
-- bash: pip install --pre azure-cli --extra-index-url https://azurecliprod.blob.core.windows.net/edge
-  displayName: 'Upgrade Azure CLI'
