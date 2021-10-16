@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/maksimchernov0483/MCH%20Educaton/_apis/build/status/makschr.pipelines-javascript?branchName=master)](https://dev.azure.com/maksimchernov0483/MCH%20Educaton/_build/latest?definitionId=8&branchName=master)
+
 # Sample NodeJS application for Azure Pipelines docs
 
 For information on how to set up a pipeline for this repository, see [Create your first pipeline](https://docs.microsoft.com/azure/devops/pipelines/get-started-yaml?view=azure-devops).
