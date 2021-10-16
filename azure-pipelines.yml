@@ -1,25 +1,19 @@
-stages:
-
 trigger:
 - main
 
 pool:
-  vmImage: "windows-latest"
+  vmImage: `ubuntu-latest`
 
-  steps:
-   - task: Maven@3
-     inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: false
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'package'
-   - task: PublishCodeCoverageResults@1
-     inputs:
-     codeCoverageTool: "JaCoCo"
-     summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-     reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-     failIfCoverageEmpty: true
+steps:
+- bash: az --version
+  displayName: 'Show Azure CLI version'
+
+- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
+  displayName: 'Set default Azure DevOps organization and project'
+
+- bash: |
+    az pipelines build list
+    git pr list
+  displayName: 'Show build list and PRs'
+  env:
+    AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
