@@ -7,8 +7,7 @@ pool:
 variables:
 - group: Dev
 - name: my-passed-variable
-  value: $[variables.myhello] # uses runtime expression
-
+   value:$[variablegroups.Dev.database1] # uses runtime expression
 steps:
 - script: echo $(database1) # uses macro syntax
 - script: echo $(my-passed-variable) 
